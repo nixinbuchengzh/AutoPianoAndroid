@@ -27,7 +27,7 @@ data class KeymapPreset(
         var lo = 127
         var hi = 0
         for (name in noteToSlot.keys) {
-            val m = noteNameToMidi(name)
+            val m = Keymaps.noteNameToMidi(name)
             if (m < lo) lo = m
             if (m > hi) hi = m
         }
@@ -35,8 +35,8 @@ data class KeymapPreset(
     }
 
     fun slotForMidi(midi: Int): KeySlot? {
-        if (isBlackKey(midi)) return null
-        val name = "${NOTE_NAMES[midi % 12]}${midi / 12 - 1}"
+        if (Keymaps.isBlackKey(midi)) return null
+        val name = "${Keymaps.NOTE_NAMES[midi % 12]}${midi / 12 - 1}"
         return noteToSlot[name]
     }
 }

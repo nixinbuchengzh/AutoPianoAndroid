@@ -2,6 +2,7 @@ package com.autopiano.engine
 
 import android.graphics.PointF
 import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 import kotlin.math.max
 import kotlin.math.min
 
@@ -134,7 +135,8 @@ class PianoPlayer(
         var lastProgress = -1.0
 
         while (coroutineContext.isActive) {
-            seekReqSec?.let { req ->
+            val req = seekReqSec
+            if (req != null) {
                 seekReqSec = null
                 evs = events.filter { it.action == 0 }
                 dur = durationSec

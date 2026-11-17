@@ -274,7 +274,7 @@ object MidiParser {
                 present.add(it.track)
                 val s = stats.getOrPut(it.track) { DoubleArray(4) }
                 s[0] += 1.0
-                s[1] += it.pitch
+                s[1] += it.pitch.toDouble()
                 s[2] += it.dur
                 byTrack.getOrPut(it.track) { mutableListOf() }.add(it)
             }
