@@ -55,6 +55,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 防止从通知栏等入口绕过卡密直接进入。
+        if (!AccessGuard.isUnlocked(this)) {
+            startActivity(Intent(this, UnlockActivity::class.java))
+            finish()
+            return
+        }
+
         setContentView(R.layout.activity_main)
 
         permStatusTv = findViewById(R.id.tv_perm_status)
@@ -80,6 +88,11 @@ class MainActivity : AppCompatActivity() {
             loadJob?.cancel()
             val stopped = stopService(Intent(this, OverlayService::class.java))
             showMessage(if (stopped) "已停止悬浮服务" else "悬浮服务未运行")
+        }
+        findViewById<Button>(R.id.btn_relock).setOnClickListener {
+            AccessGuard.relock(this)
+            startActivity(Intent(this, UnlockActivity::class.java))
+            finish()
         }
         importButton.setOnClickListener {
             pickFileLauncher.launch(arrayOf("*/*"))

@@ -7,18 +7,24 @@
 
     <application
         android:allowBackup="true"
-        android:label="自动弹琴"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Dark.NoActionBar">
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.UnlockActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false" />
 
         <service
             android:name=".service.OverlayService"

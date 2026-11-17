@@ -161,13 +161,13 @@ class OverlayService : Service() {
     private fun startForegroundNotification() {
         val channelId = "autopiano_overlay"
         getSystemService(NotificationManager::class.java).createNotificationChannel(
-            NotificationChannel(channelId, "自动弹琴悬浮球", NotificationManager.IMPORTANCE_LOW)
+            NotificationChannel(channelId, "枫吟悬浮球", NotificationManager.IMPORTANCE_LOW)
         )
         val open = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
         val play = PendingIntent.getService(this, 1, Intent(this, OverlayService::class.java).setAction(ACTION_TOGGLE_PLAY), PendingIntent.FLAG_IMMUTABLE)
         val stop = PendingIntent.getService(this, 2, Intent(this, OverlayService::class.java).setAction(ACTION_STOP), PendingIntent.FLAG_IMMUTABLE)
         val notif = Notification.Builder(this, channelId)
-            .setContentTitle("自动弹琴悬浮球已开启")
+            .setContentTitle("枫吟悬浮球已开启")
             .setContentText("点击悬浮球展开；收起不停止弹奏")
             .setContentIntent(open)
             .addAction(Notification.Action.Builder(null, "播放 / 暂停", play).build())
@@ -223,7 +223,7 @@ class OverlayService : Service() {
             isClickable = true
         }
         val header = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL }
-        val title = label("自动弹琴 · 拖动", 13f).apply { setTextColor(Color.rgb(90, 169, 255)) }
+        val title = label("枫吟 · 拖动", 13f).apply { setTextColor(Color.rgb(90, 169, 255)) }
         header.addView(title, LinearLayout.LayoutParams(0, dp(36), 1f))
         header.addView(button("收起") { collapsePanel() }, LinearLayout.LayoutParams(dp(48), dp(32)))
         header.addView(button("退出") { stopSelf() }, LinearLayout.LayoutParams(dp(48), dp(32)).apply { leftMargin = dp(4) })
@@ -305,7 +305,7 @@ class OverlayService : Service() {
             gravity = Gravity.CENTER
             setTextColor(Color.WHITE)
             background = background(Color.rgb(42, 103, 172), 24)
-            contentDescription = "自动弹琴悬浮球，点击展开，拖动移动，长按暂停或继续"
+            contentDescription = "枫吟悬浮球，点击展开，拖动移动，长按暂停或继续"
             elevation = dp(4).toFloat()
         }
         ballView = ball

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">自动弹琴</string>
+    <string name="app_name">枫吟</string>
     <string name="accessibility_desc">用于在原神、光遇等游戏琴界面模拟多指弹奏点击</string>
 </resources>

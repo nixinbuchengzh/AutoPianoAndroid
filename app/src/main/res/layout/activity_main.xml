@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="自动弹琴 (Android)"
+            android:text="枫吟 (Android)"
             android:textColor="#5aa9ff"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -68,6 +68,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="停止悬浮服务" />
+
+        <Button
+            android:id="@+id/btn_relock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="重新锁定（需卡密）"
+            android:textColor="#ff9c9c" />
 
         <TextView
             android:id="@+id/tv_library_count"

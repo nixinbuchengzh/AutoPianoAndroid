@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#15161b"
+    android:fillViewport="true"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="枫吟图标"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="枫吟"
+            android:textColor="#5aa9ff"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="请输入卡密以进入"
+            android:textColor="#9aa0ae"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_access_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:backgroundTint="#5aa9ff"
+            android:gravity="center"
+            android:hint="卡密"
+            android:imeOptions="actionDone"
+            android:inputType="textVisiblePassword"
+            android:minHeight="52dp"
+            android:singleLine="true"
+            android:textColor="#eef0f5"
+            android:textColorHint="#9aa0ae"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_access_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="卡密错误，请重试"
+            android:textColor="#ff6b6b"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/cb_remember"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:checked="true"
+            android:text="记住解锁状态（下次启动免输入）"
+            android:textColor="#eef0f5"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_unlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="进入" />
+
+    </LinearLayout>
+</ScrollView>
