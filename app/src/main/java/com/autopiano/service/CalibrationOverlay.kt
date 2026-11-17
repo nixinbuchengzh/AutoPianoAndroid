@@ -26,10 +26,10 @@ class CalibrationOverlay(
     initial: CalibrationProfile,
     private val onSaved: (CalibrationProfile) -> Unit
 ) {
-    private var left = initial.left
-    private var top = initial.top
-    private var right = initial.right
-    private var bottom = initial.bottom
+    private var hLeft = initial.left
+    private var hTop = initial.top
+    private var hRight = initial.right
+    private var hBottom = initial.bottom
 
     private var rootView: FrameLayout? = null
 
@@ -61,26 +61,26 @@ class CalibrationOverlay(
             override fun onDraw(canvas: Canvas) {
                 super.onDraw(canvas)
                 canvas.drawColor(Color.argb(95, 0, 0, 0))
-                canvas.drawRect(left, top, right, bottom, linePaint)
+                canvas.drawRect(hLeft, hTop, hRight, hBottom, linePaint)
 
-                val prof = CalibrationProfile(preset.id, left, top, right, bottom)
+                val prof = CalibrationProfile(preset.id, hLeft, hTop, hRight, hBottom)
                 for (r in 0 until preset.rows) {
                     for (c in 0 until preset.cols) {
                         val pt = prof.pointFor(KeySlot(r, c), preset.rows, preset.cols)
                         canvas.drawCircle(pt.x, pt.y, 14f, dotPaint)
                     }
                 }
-                canvas.drawCircle(left, top, 36f, handlePaint)
-                canvas.drawText("左上", left, top - 44f, textPaint)
-                canvas.drawCircle(right, bottom, 36f, handlePaint)
-                canvas.drawText("右下", right, bottom + 64f, textPaint)
+                canvas.drawCircle(hLeft, hTop, 36f, handlePaint)
+                canvas.drawText("左上", hLeft, hTop - 44f, textPaint)
+                canvas.drawCircle(hRight, hBottom, 36f, handlePaint)
+                canvas.drawText("右下", hRight, hBottom + 64f, textPaint)
             }
 
             override fun onTouchEvent(event: MotionEvent): Boolean {
                 when (event.actionMasked) {
                     MotionEvent.ACTION_DOWN -> {
-                        val d1 = hypot(event.x - left, event.y - top)
-                        val d2 = hypot(event.x - right, event.y - bottom)
+                        val d1 = hypot(event.x - hLeft, event.y - hTop)
+                        val d2 = hypot(event.x - hRight, event.y - hBottom)
                         dragging = when {
                             d1 < 90f -> 1
                             d2 < 90f -> 2
@@ -90,13 +90,13 @@ class CalibrationOverlay(
                     }
                     MotionEvent.ACTION_MOVE -> {
                         if (dragging == 1) {
-                            left = event.x.coerceAtMost(right - 80f)
-                            top = event.y.coerceAtMost(bottom - 60f)
+                            hLeft = event.x.coerceAtMost(hRight - 80f)
+                            hTop = event.y.coerceAtMost(hBottom - 60f)
                             invalidate()
                             return true
                         } else if (dragging == 2) {
-                            right = event.x.coerceAtLeast(left + 80f)
-                            bottom = event.y.coerceAtLeast(top + 60f)
+                            hRight = event.x.coerceAtLeast(hLeft + 80f)
+                            hBottom = event.y.coerceAtLeast(hTop + 60f)
                             invalidate()
                             return true
                         }
@@ -127,7 +127,7 @@ class CalibrationOverlay(
         val btnSave = Button(context).apply {
             text = "保存"
             setOnClickListener {
-                val prof = CalibrationProfile(preset.id, left, top, right, bottom)
+                val prof = CalibrationProfile(preset.id, hLeft, hTop, hRight, hBottom)
                 CalibrationProfile.save(context, prof)
                 dismiss()
                 onSaved(prof)
