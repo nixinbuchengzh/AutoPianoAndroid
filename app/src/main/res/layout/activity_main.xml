@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#15161b"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="♪ 自动弹琴 (Android)"
+        android:textColor="#5aa9ff"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="支持原神 (3排/2排)、光遇 (3×5) 及自定义坐标校准"
+        android:textColor="#9aa0ae"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_perm_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="#1f2129"
+        android:padding="14dp"
+        android:text="正在检查权限..."
+        android:textColor="#eef0f5"
+        android:textSize="13sp" />
+
+    <Button
+        android:id="@+id/btn_overlay_perm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="1. 开启悬浮窗权限" />
+
+    <Button
+        android:id="@+id/btn_acc_perm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="2. 开启无障碍服务（自动点击）" />
+
+    <Button
+        android:id="@+id/btn_start_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="打开悬浮控制面板" />
+
+    <Button
+        android:id="@+id/btn_pick_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="选择曲谱 (.txt / .mid) 并加载到悬浮窗" />
+</LinearLayout>

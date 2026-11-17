@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+.gradle-user-home/
+.gradle-tmp/
+gradle-8.5/
+build.bat
+build.ps1
+build.log
+
+# Android Studio / IntelliJ
+*.iml
+.idea/
+local.properties
+
+# Build outputs
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# OS
+.DS_Store
+Thumbs.db
