@@ -9,7 +9,7 @@ import kotlin.math.min
 class PianoPlayer(
     var score: Score,
     var preset: KeymapPreset,
-    var calibration: CalibrationProfile,
+    @Volatile var calibration: CalibrationProfile,
     var bpm: Double = score.bpm,
     var loop: Boolean = false,
     var sustain: Boolean = false,
@@ -67,6 +67,11 @@ class PianoPlayer(
         }
     }
 
+    fun dispose() {
+        stop()
+        scope.cancel()
+    }
+
     fun stop() {
         job?.cancel()
         job = null
@@ -120,7 +125,7 @@ class PianoPlayer(
                 setState("finished")
             }
         } catch (_: CancellationException) {
-            setState("idle")
+            // stop() 已同步切换到 idle。旧协程不得覆盖紧接着启动的新播放状态。
         }
     }
 
@@ -191,6 +196,8 @@ class PianoPlayer(
                 }
                 val points = batch.map { calibration.pointFor(it.slot, preset.rows, preset.cols) }
                 val holdMs = (batch.maxOf { it.hold } * 1000.0).toLong().coerceIn(25L, 70L)
+                coroutineContext.ensureActive()
+                if (paused) continue
                 dispatchChord(points, holdMs)
                 if (anchorT - lastProgress >= 0.05) {
                     lastProgress = anchorT
@@ -199,6 +206,7 @@ class PianoPlayer(
             }
         }
 
+        coroutineContext.ensureActive() // 停止导致循环退出时，不得再回写末尾进度。
         pausedPosSec = 0.0
         currentPosSec = dur
         onProgress(dur, dur)

@@ -54,8 +54,27 @@ data class CalibrationProfile(
     val left: Float,
     val top: Float,
     val right: Float,
-    val bottom: Float
+    val bottom: Float,
+    val screenWidth: Int = 0,
+    val screenHeight: Int = 0,
+    val rotation: Int = 0
 ) {
+    /** 校准值和无障碍手势统一使用屏幕绝对坐标。 */
+    fun fitsViewport(leftEdge: Float, topEdge: Float, width: Int, height: Int): Boolean =
+        listOf(left, top, right, bottom).all { it.isFinite() } &&
+            left >= leftEdge && top >= topEdge &&
+            right <= leftEdge + width && bottom <= topEdge + height &&
+            right - left >= 48f && bottom - top >= 48f
+
+    fun forViewport(leftEdge: Float, topEdge: Float, width: Int, height: Int): CalibrationProfile {
+        if (fitsViewport(leftEdge, topEdge, width, height)) return this
+        return copy(
+            left = leftEdge + width * 0.14f,
+            top = topEdge + height * 0.54f,
+            right = leftEdge + width * 0.86f,
+            bottom = topEdge + height * 0.84f
+        )
+    }
     fun pointFor(slot: KeySlot, rows: Int, cols: Int): PointF {
         val x = if (cols <= 1) (left + right) * 0.5f
         else left + (right - left) * (slot.col.toFloat() / (cols - 1))
@@ -70,44 +89,56 @@ data class CalibrationProfile(
         put("top", top.toDouble())
         put("right", right.toDouble())
         put("bottom", bottom.toDouble())
+        put("screenWidth", screenWidth)
+        put("screenHeight", screenHeight)
+        put("rotation", rotation)
     }.toString()
 
     companion object {
-        fun defaultFor(preset: KeymapPreset, screenW: Int, screenH: Int): CalibrationProfile {
-            // 横屏游戏默认居中偏下区域
-            val w = screenW.toFloat()
-            val h = screenH.toFloat()
-            return CalibrationProfile(
+        fun defaultFor(preset: KeymapPreset, screenW: Int, screenH: Int, rotation: Int = 0): CalibrationProfile =
+            CalibrationProfile(
                 presetId = preset.id,
-                left = w * 0.22f,
-                top = h * 0.52f,
-                right = w * 0.78f,
-                bottom = h * 0.86f
+                left = screenW * 0.14f,
+                top = screenH * 0.54f,
+                right = screenW * 0.86f,
+                bottom = screenH * 0.84f,
+                screenWidth = screenW,
+                screenHeight = screenH,
+                rotation = rotation
             )
-        }
 
-        fun load(ctx: Context, preset: KeymapPreset, screenW: Int, screenH: Int): CalibrationProfile {
-            val prefs = ctx.getSharedPreferences("autopiano_cal", Context.MODE_PRIVATE)
-            val raw = prefs.getString("cal_${preset.id}", null)
-                ?: return defaultFor(preset, screenW, screenH)
+        private fun key(presetId: String, width: Int, height: Int, rotation: Int) =
+            "cal_${presetId}_${width}x${height}_r$rotation"
+
+        fun load(ctx: Context, preset: KeymapPreset, screenW: Int, screenH: Int, rotation: Int = 0): CalibrationProfile {
+            val fallback = defaultFor(preset, screenW, screenH, rotation)
+            // 不沿用无尺寸信息的旧版配置，避免把竖屏绝对坐标套在横屏上。
+            val raw = ctx.getSharedPreferences("autopiano_cal", Context.MODE_PRIVATE)
+                .getString(key(preset.id, screenW, screenH, rotation), null) ?: return fallback
             return try {
                 val obj = JSONObject(raw)
-                CalibrationProfile(
+                val profile = CalibrationProfile(
                     presetId = preset.id,
                     left = obj.getDouble("left").toFloat(),
                     top = obj.getDouble("top").toFloat(),
                     right = obj.getDouble("right").toFloat(),
-                    bottom = obj.getDouble("bottom").toFloat()
+                    bottom = obj.getDouble("bottom").toFloat(),
+                    screenWidth = screenW,
+                    screenHeight = screenH,
+                    rotation = rotation
                 )
+                if (profile.fitsViewport(0f, 0f, screenW, screenH)) profile else fallback
             } catch (_: Exception) {
-                defaultFor(preset, screenW, screenH)
+                fallback
             }
         }
 
         fun save(ctx: Context, profile: CalibrationProfile) {
+            require(profile.screenWidth > 0 && profile.screenHeight > 0)
+            require(profile.fitsViewport(0f, 0f, profile.screenWidth, profile.screenHeight))
             ctx.getSharedPreferences("autopiano_cal", Context.MODE_PRIVATE)
                 .edit()
-                .putString("cal_${profile.presetId}", profile.toJson())
+                .putString(key(profile.presetId, profile.screenWidth, profile.screenHeight, profile.rotation), profile.toJson())
                 .apply()
         }
     }

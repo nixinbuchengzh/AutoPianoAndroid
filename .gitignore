@@ -1,3 +1,10 @@
+# Local validation toolchain (moved to C:/Users/Public/autopiano-build)
+.local-build/
+.autopiano-build/
+
+# WorkBuddy internal notes
+.workbuddy-ai/
+
 # Gradle
 .gradle/
 .gradle-user-home/
@@ -6,6 +13,7 @@ gradle-8.5/
 build.bat
 build.ps1
 build.log
+build-global.bat
 
 # Android Studio / IntelliJ
 *.iml
@@ -15,6 +23,7 @@ local.properties
 # Build outputs
 build/
 app/build/
+outputs/
 captures/
 .externalNativeBuild/
 .cxx/

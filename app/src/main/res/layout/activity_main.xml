@@ -1,65 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#15161b"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:fillViewport="true"
+    android:scrollbars="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="♪ 自动弹琴 (Android)"
-        android:textColor="#5aa9ff"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="支持原神 (3排/2排)、光遇 (3×5) 及自定义坐标校准"
-        android:textColor="#9aa0ae"
-        android:textSize="13sp" />
-
-    <TextView
-        android:id="@+id/tv_perm_status"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="#1f2129"
-        android:padding="14dp"
-        android:text="正在检查权限..."
-        android:textColor="#eef0f5"
-        android:textSize="13sp" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/btn_overlay_perm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="1. 开启悬浮窗权限" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="自动弹琴 (Android)"
+            android:textColor="#5aa9ff"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btn_acc_perm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="2. 开启无障碍服务（自动点击）" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="支持原神 (3排/2排)、光遇 (3×5) 及自定义坐标校准"
+            android:textColor="#9aa0ae"
+            android:textSize="13sp" />
 
-    <Button
-        android:id="@+id/btn_start_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="打开悬浮控制面板" />
+        <TextView
+            android:id="@+id/tv_perm_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="#1f2129"
+            android:padding="14dp"
+            android:text="正在检查权限…"
+            android:textColor="#eef0f5"
+            android:textSize="13sp" />
 
-    <Button
-        android:id="@+id/btn_pick_score"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="选择曲谱 (.txt / .mid) 并加载到悬浮窗" />
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_overlay_perm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="1. 开启悬浮窗权限" />
+
+        <Button
+            android:id="@+id/btn_acc_perm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="2. 开启无障碍服务（自动点击）" />
+
+        <Button
+            android:id="@+id/btn_start_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="启动悬浮球 / 控制面板" />
+
+        <Button
+            android:id="@+id/btn_stop_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="停止悬浮服务" />
+
+        <TextView
+            android:id="@+id/tv_library_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="本地曲库 · 0 首"
+            android:textColor="#5aa9ff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="可先批量导入 .mid / .midi / .txt，每个文件不超过 10 MiB。TXT 需为非空 UTF-8 文本。\n导入会复制到应用私有曲库，无需悬浮窗权限，也不会启动悬浮服务。点击曲目后才发送到悬浮窗。"
+            android:textColor="#9aa0ae"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btn_pick_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="批量导入曲谱到本地曲库" />
+
+        <EditText
+            android:id="@+id/et_library_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#5aa9ff"
+            android:hint="搜索曲名"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:singleLine="true"
+            android:textColor="#eef0f5"
+            android:textColorHint="#9aa0ae"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_library_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#1f2129"
+            android:padding="12dp"
+            android:text="曲库文件保存在本机；清除应用数据或卸载应用会移除曲库。"
+            android:textColor="#eef0f5"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_library_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:padding="12dp"
+            android:text="尚未导入曲谱，请先批量导入文件。"
+            android:textColor="#9aa0ae"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/library_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" />
+    </LinearLayout>
+</ScrollView>
